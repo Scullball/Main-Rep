@@ -1,0 +1,34 @@
+﻿@model BookStore.Models.RegisterViewModel
+<div class="modal fade" id="regModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content reg-modal-content">
+            <div class="modal-header reg-modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Регистрация</h4>
+            </div>
+            <div class="modal-errors">
+                @Html.ValidationSummary(false)
+            </div>
+            <div class="modal-info">
+                Личные сведения, полученные в распоряжение интернет-магазина при регистрации или каким-либо иным образом,
+                не будут без разрешения пользователей передаваться третьим организациям и лицам за исключением ситуаций,
+                когда этого требует закон или судебное решение.
+            </div>
+            <div class="modal-body reg-modal-body">
+                <form class="form" role="form" method="post" action="/Account/Register">                  
+                    @Html.AntiForgeryToken()
+                    <div class="form-group reg-modal-input">
+                        <input type="email" class="form-control" name="Email" placeholder="E-Mail">
+                    </div>
+                    <div class="form-group reg-modal-input">
+                        <input type="password" class="form-control" name="Password" placeholder="Пароль">                    
+                    </div>
+                    <div class="form-group reg-modal-input">
+                        <input type="password" class="form-control" name="ConfirmPassword" placeholder="Подтверждение пароля">
+                    </div>                   
+                    <button type="submit" class="btn btn-reg-modal">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

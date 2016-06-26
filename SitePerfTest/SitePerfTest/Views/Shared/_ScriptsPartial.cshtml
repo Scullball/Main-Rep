@@ -1,0 +1,61 @@
+﻿<script>
+    /*Global vars  */
+    var DbDataArr = []; // массив точек, для сохранения в базу
+    var arr = [];// массив sitemaps
+    var compareGraphs;// объект Highcharts(графики сравнения)
+    var chart;// объект Highcharts(динамический график)
+    var column;// объект Highcharts(столбцы)
+    $('.runTest').click(function () {
+        var url = $('.testForm');
+        if (url.val().length > 0)
+        {
+            //стартовая ф-ция.(project-functions.js)
+            arr = getSitemaps(url.val());
+            //project-graphics.js
+            chart = renderGraph();
+            //project-tables.js
+            column = renderColumn();
+
+            if (arr.length > 20) {
+                arr.length = 20
+            }
+            loop(0);
+        }
+    });
+
+    //сохраняет результат теста в бд.
+    $('.save').click(function () {
+        var title = $('.test-title-form');
+        if (title.val().length > 0) {
+            storeResultToBd(title.val(),DbDataArr);
+        }
+        else
+        {
+            $(".console-body").append("<br>please,insert test name/title");
+        }
+    });
+
+    //рисует сравниваемые графики
+    $('.display-graphycaly').click(function () {
+        var name = $(this).closest('tbody').find('.table-title').text();
+        var data = ($(this).attr('data'));
+        var arr = data.split(',');
+        $.each(arr,function (i,val) {
+            arr[i] = parseFloat(val);
+        });
+        if (typeof compareGraphs == 'undefined') {
+            compareGraphs = displayGraphycaly();
+        }        
+        compareGraphs.addSeries({
+            name: name,
+            data: arr
+        });
+    });
+    
+
+    
+
+   
+
+    
+</script>

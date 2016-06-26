@@ -1,0 +1,201 @@
+﻿
+<script type="text/javascript">
+    $(window).load(function () {
+        if (@TempData["LoginError"] == 1) {
+            $('#pop').popover('show');
+            var popShow = true;
+        }
+            $('*').click(function (e) {
+                if (e.target.attr != 'pop' && popShow === true) {
+                    $("#pop").popover('hide');
+                }
+            });                   
+    });
+</script>
+
+<script type="text/javascript">
+    $(window).load(function () {
+        var check = @((TempData["messageBox"] != null).ToString().ToLower());
+        if (check == true) {
+            $('#messageBox').popover('show');
+            var popShow = true;
+        }
+            $('*').click(function (e) {
+                if (e.target.attr != 'messageBox' && popShow === true) {
+                    $("#messageBox").popover('hide');
+                }
+            });
+    });
+</script>
+
+<script type="text/javascript">
+    $(window).load(function(){
+        if(@TempData["RegisterError"]== 1)
+        {
+            $('#regModal').modal('show');
+        }        
+    });
+</script>
+<script type="text/javascript">
+    $(window).load(function(){
+        if(@TempData["EditAuthorError"]== 1)
+        {
+            $('#AuthorEditModal').modal('show');
+            var id = '@TempData["id"]';
+            var name ='@TempData["name"]';
+            var desc = '@TempData["desc"]';
+            $('#authorName').val(name);
+            $('#authorDesc').val(desc);
+            $('#id').val(id);
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $('.editAuthor').click(function(){
+        $('#AuthorEditModal').modal('show');
+        var id = $(this).attr('id');
+        var name = $(this).attr('name');
+        var desc = $(this).attr('desc');
+        $('#authorName').val(name);
+        $('#authorDesc').val(desc);
+        $('#authorid').val(id);
+    })
+</script>
+
+<script type="text/javascript">
+    $(window).load(function(){
+        if(@TempData["AddAuthorError"]== 1)
+        {
+            $('#AddAuthorModal').modal('show');
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $('.editGenre').click(function(){
+        $('#GenreEditModal').modal('show');
+        var id = $(this).attr('id');
+        var name = $(this).attr('name');
+        var desc = $(this).attr('desc');
+        $('#genreName').val(name);
+        $('#genreDesc').val(desc);
+        $('#genreid').val(id);
+    })
+</script>
+
+<script type="text/javascript">
+    $(window).load(function(){
+        if(@TempData["EditGenreError"]== 1)
+        {
+            $('#GenreEditModal').modal('show');
+            var id = '@TempData["id"]';
+            var name ='@TempData["name"]';
+            var desc = '@TempData["desc"]';
+            $('#genreName').val(name);
+            $('#genreDesc').val(desc);
+            $('#genreid').val(id);
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $(window).load(function(){
+        if(@TempData["AddGenreError"]== 1)
+        {
+            $('#AddGenreModal').modal('show');
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    /*Скрывает окно при нажатии на крестик (index.cshtml) */
+    $('.in-cart-pop-header button').click(function (){
+        $('.in-cart-pop').hide();
+    });
+</script>
+
+<script type="text/javascript">
+    /*Выводит сообщение при клике на кнопку "в корзину" на about.cshtml*/
+    $('.detail-inCart').click(function(){
+        $(this).closest('dl').find('.inCart-annotation').css({"opacity":"1","transform":"scale(1)"});
+    });
+
+</script>
+
+<script type="text/javascript">
+    /* Выводит окно, которое показывает добавление книги в корзину.
+    Посылает ajax запрос на обновление счетчиков в корзине.
+    Срабатывает при нажатии кнопки "в корзину " на index.cshtml*/
+    $('.in-cart-button').click(function (){
+        var image = $(this).closest('.book').find('img').attr('src');
+        var title = $(this).closest('.book').find('.book-title').text();
+        var id = $(this).closest('.book').find('.book-id').text();
+        var price = $(this).closest('.book').find('.book-price').text();
+        $.when($.ajax({
+            type: "GET",
+            url: "/Home/InCart",
+            data: {id:id, price:parseInt(price)},
+            success: function(data) {
+                $('#ajaxCart').html(data);
+            }
+        })).then(function(){
+            var totalPrice = $('.cartPartial-totalPrice').text();
+            $('.in-cart-pop-image img').attr('src', image);
+            $('.in-cart-pop-book-title').empty();
+            $('.in-cart-pop-book-title').prepend(title);
+            $('.in-cart-pop-total-money-counter span').empty();
+            $('.in-cart-pop-total-money-counter span').prepend(totalPrice);
+            $('.in-cart-pop').show();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    /* Заполняет поле "всего" в Cart.cshtml */
+    $(window).load(function (){
+        $('tbody').each(function(index){
+            var price = $(this).find('.cart-form-book-price').text();
+            if(price.length>0){
+                var quantity = $(this).find('.cart-form-book-quantity input').val();
+                var intPrice = parseInt(price);
+                var subtotal = intPrice * quantity;
+                var subtotal = subtotal+' грн';
+                $(this).find('.cart-form-book-subtotal').prepend(subtotal);
+            }
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    /* Скрипт срабатывает при изменении значения поля input в Cart.cshtml.
+    Обновляет значение счетчика сверху таблицы и отсылает ajax запрос на обновление счетчиков в корзине('_CartPartial') */
+    $('.cart-form-book-quantity').change(function(){
+        var price = $(this).closest('tr').find('.cart-form-book-price').text();
+        if(price.length>0){
+            var quantity = $(this).closest('tr').find('.cart-form-book-quantity input').val();
+            var id = $(this).closest('tr').find('.cart-form-book-id').text();
+            var intPrice = parseInt(price);
+            var subtotal = intPrice * quantity;
+            var subtotal = subtotal+' грн';
+            $(this).closest('tr').find('.cart-form-book-subtotal').empty();
+            $(this).closest('tr').find('.cart-form-book-subtotal').prepend(subtotal);
+            var totalPrice = 0; 
+            $('tbody').each(function(){
+                var sum = $(this).find('.cart-form-book-subtotal').text();
+                var intSum = parseInt(sum);
+                if (!isNaN(intSum)) totalPrice += intSum;
+            });
+            $('.cart-header-counter span').empty();
+            $('.cart-header-counter span').prepend(totalPrice);
+            $.ajax({
+                type: "GET",
+                url: "/Home/InCartFromInput",
+                data: {id:id, price:intPrice, BookQuantity:quantity},
+                success: function(data) {
+                    $('#ajaxCart').html(data);
+                }
+            });
+        }
+    });
+</script>

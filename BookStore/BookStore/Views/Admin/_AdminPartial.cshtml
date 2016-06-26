@@ -1,0 +1,4 @@
+﻿@if (Request.IsAuthenticated && User.IsInRole("admin"))
+{
+    <li><a href="/Admin/AddBook">Добавить книгу</a></li>
+}
