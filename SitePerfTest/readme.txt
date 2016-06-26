@@ -8,16 +8,20 @@ Simple code. Main application logic written on javaScript. Server side(c#) used
 	
 
 
-	Вся основная логика программы находится в двух файлах: 
+	All the basic logic of the program is in two files: 
 	~/Views/Shared/_ScriptsPartial.cshtml
 	~/Scripts/project-functions.js
 
-	~/Scripts/project-graphics.js, project-tables.js - реализация графиков
+	~/Scripts/project-graphics.js, project-tables.js - implementation Schedule
 
-	Кросс-доменные запросы разрешены на сервере Global.asax(Application_BeginRequest);
-	Если у вас браузер не будет их блокировать, все будет работать. 
-	В противном случае Firefox + https://addons.mozilla.org/ru/firefox/addon/cors-everywhere/.
+	Cross-domain requests are prohibited on the server Global.asax(Application_BeginRequest);
+	If you have a browser will not block them, it will work. 
+	Otherwise: Firefox + https://addons.mozilla.org/ru/firefox/addon/cors-everywhere/.
 	
-	Графики использовал highcharts http://www.highcharts.com/demo/3d-column-stacking-grouping
+	
+	Charts used: highcharts http://www.highcharts.com/demo/3d-column-stacking-grouping
+
+
+									Best Regards
 	
 	
