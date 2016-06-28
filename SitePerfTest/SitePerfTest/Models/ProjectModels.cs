@@ -18,4 +18,6 @@ namespace SitePerfTest.Models
     {
         public DbSet<GraphycsData> GraphycsDatas { get; set; }
     }
+
+  
 }

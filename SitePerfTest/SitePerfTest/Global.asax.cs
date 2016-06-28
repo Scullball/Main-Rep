@@ -10,12 +10,7 @@ namespace SitePerfTest
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        protected void Application_BeginRequest(object sender, EventArgs e)
-        {
-            HttpContext.Current.Response.AddHeader(
-                        "Access-Control-Allow-Origin", "*");
-        }
-
+     
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

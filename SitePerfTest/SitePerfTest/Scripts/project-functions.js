@@ -4,13 +4,16 @@ function getSitemaps(url) {
     var validUrl = validateUrl(url);
     if (!validUrl)
     {
-        $(".console-body").append("<br>please, enter the valid url").css('color','red');
+        $(".console-body").append("<br>sitemap.xml not found").css('color','red');
     }
     else
     {
         var urlsArr = xmlParse(getXml(validUrl));
-        $(".console-body").append("<br>xml file received, starting test").css('color','black');
-        return urlsArr;
+        if (urlsArr)
+        {
+            $(".console-body").append("<br>xml file received, starting test").css('color', 'black');
+            return urlsArr;
+        }
     }
     
 };
@@ -40,12 +43,13 @@ function testCall(url) {
     $.ajax({
         type: "GET",
         async: false,
-        url: url,
+        url: '/Home/TestCall',
+        data: { url: url },
 
-        success: function () {
+        success: function (data) {
             result = true;
         },
-        error: function () {
+        error: function (data) {
             result = false;
         },
     });
@@ -55,20 +59,26 @@ function testCall(url) {
 //Разбирает файл xml, доставая нужные нам адреса и складывая их в массив
 //xml - результат работы getXml()
 function xmlParse(xml) {
-    var sitemapsArray = [];
-    $(xml).find("sitemap").each(function () {
-        $(this).find("loc").each(function () {
-            sitemapsArray.push($(this).text());
+    if (xml) {
+        var sitemapsArray = [];
+        $(xml).find("sitemap").each(function () {
+            $(this).find("loc").each(function () {
+                sitemapsArray.push($(this).text());
+            })           
         })
-    })
-    var urlForDdosArray = [];
-    sitemapsArray.forEach(function (item) {
-        var xml = getXml(item);
-        $(xml).find("loc").each(function () {
-            urlForDdosArray.push($(this).text());
+        var urlForDdosArray = [];
+        sitemapsArray.forEach(function (item) {
+            var xml = getXml(item);
+            $(xml).find("loc").each(function () {
+                urlForDdosArray.push($(this).text());
+            })
         })
-    })
-    return urlForDdosArray;
+        return urlForDdosArray;
+    }
+    else {
+        return false;
+    }
+    
 };
 
 //ajax(синхронный) возвращает запрошенный sitemap.xml
@@ -78,21 +88,24 @@ function getXml(url) {
     $.ajax({
         type: "GET",
         async: false,   
-        url: url,
+        url: '/Home/GetXml',
+        data: { url: url },
 
         success: function (data) {
             xml = data;
         },
-        error: function (xhr) {
-            $(".console-body").append("<br>get xml"+ xhr.status).css('color','red');
+        error: function () {
+            $(".console-body").append("<br>get xml fail").css('color', 'red');
+            xml = false;
         },
     });
     return xml;
 };
 
 //Вызывается on.click, после, функцией setPoint при определенном значении счетчика.
+//установлен таймаут(1,5 секунды), для менее агрессивного ddosa.
 function loop(counter) {
-    ddos(arr[counter], counter);
+    setTimeout(ddos,1500,arr[counter], counter);
 }
 
 //Четыре ajaxa меряют впемя отклика, и передают в массив.Счетчик пробрасывается, для вызова следующей ф-ции.
@@ -103,64 +116,70 @@ function ddos(url, count) {
     $.ajax({
         type: "GET",
         async: true,
-        url: url,
+        url: '/Home/FirstRequest',
+        data: { url: url },
 
-        success: function () {
+        success: function (data) {
             var end = new Date;
             var y = (end - start) / 1000;
             pointsArr.push(y);
 
         },
-        error: function (xhr) {
-            $(".console-body").append("<br>get xml" + xhr.status).css('color', 'red');
+        error: function (data) {
+            $(".console-body").append("<br>ddos(1)-" + data).css('color', 'red');
         },
     }),
 
     $.ajax({
         type: "GET",
         async: true,
-        url: url,
+        url: '/Home/SecondRequest',
+        data: { url: url },
 
-        success: function () {
+        success: function (data) {
             var end = new Date;
             var y = (end - start) / 1000;
             pointsArr.push(y);
 
         },
-        error: function (xhr) {
-            $(".console-body").append("<br>get xml" + xhr.status).css('color', 'red');
+        error: function (data) {
+            $(".console-body").append("<br>ddos(2)-" + data).css('color', 'red');
         },
     }),
+
 
     $.ajax({
         type: "GET",
         async: true,
-        url: url,
+        url: '/Home/ThirdRequest',
+        data: { url: url },
 
-        success: function () {
+        success: function (data) {
             var end = new Date;
             var y = (end - start) / 1000;
             pointsArr.push(y);
 
         },
-        error: function (xhr) {
-            $(".console-body").append("<br>get xml" + xhr.status).css('color', 'red');
+        error: function (data) {
+            $(".console-body").append("<br>ddos(3)-" + data).css('color', 'red');
         },
     }),
+
 
     $.ajax({
         type: "GET",
         async: true,
-        url: url,
+        url: '/Home/FourthRequest',
+        data: { url: url },
 
-        success: function () {
+        success: function (data) {
             var end = new Date;
             var y = (end - start) / 1000;
             pointsArr.push(y);
 
         },
-        error: function (xhr) {
-            $(".console-body").append("<br>get xml" + xhr.status).css('color', 'red');
+        error: function (data) {
+            $(".console-body").append("<br>ddos(4)-" + data).css('color', 'red');
         },
     })
     ).then(function () {
