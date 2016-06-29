@@ -21,16 +21,17 @@ namespace SitePerfTest.Controllers
             return View();
         }
         //тестовый запрос для проверки протокола
-        public void TestCall(string url)
+        public string TestCall(string url)
         {
-            XmlDocument xml = new XmlDocument();
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url);
             try
             {
-                xml.Load(url);
+                HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+                return (resp.StatusCode).ToString();
             }
             catch(FileNotFoundException e)
             {
-                
+                return e.Message;
             }            
         }
         
@@ -50,6 +51,23 @@ namespace SitePerfTest.Controllers
             Response.ContentEncoding = System.Text.Encoding.UTF8; 
             xml.Save(Response.Output);
         }   
+
+        //получает адресс сайта. Возвращает строку с url-ами находящимися по переданному адрессу.
+        public string GetSiteUrls(string siteUrl)
+        {
+            string s = "";
+            WebClient site = new WebClient();
+            //получает страницу ввиде строки           
+            string sitePage = site.DownloadString(siteUrl);   
+            List<string> list = new List<string>();
+            //достает все ссылки на странице
+            list = LInkFinder.Find(sitePage);
+            foreach(string item in list)
+            {
+                s = s + item + ",";
+            }
+            return s;
+        }
 
        public string FirstRequest(string url)
         {

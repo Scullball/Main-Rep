@@ -4,14 +4,23 @@ function getSitemaps(url) {
     var validUrl = validateUrl(url);
     if (!validUrl)
     {
-        $(".console-body").append("<br>sitemap.xml not found").css('color','red');
+        $(".console-body").append("<br>please, enter correct url").css('color', 'red');
     }
-    else
+    else if (validUrl.indexOf("sitemap.xml") >= 0)
     {
         var urlsArr = xmlParse(getXml(validUrl));
         if (urlsArr)
         {
             $(".console-body").append("<br>xml file received, starting test").css('color', 'black');
+            return urlsArr;
+        }
+    }
+    else
+    {      
+        var urlsArr = getSiteUrls(validUrl);
+        if (urlsArr)
+        {
+            $(".console-body").append("<br>sitemap create, starting test").css('color', 'black');
             return urlsArr;
         }
     }
@@ -23,13 +32,19 @@ function getSitemaps(url) {
 function validateUrl(url) {
     if (testCall("http://" + url + "/sitemap.xml"))
     {
-        var validUrl = "http://" + url + "/sitemap.xml";
-        return validUrl;
+        return "http://" + url + "/sitemap.xml";
     }
     else if (testCall("https://" + url + "/sitemap.xml"))
     {
-        var validUrl = "https://" + url + "/sitemap.xml";
-        return validUrl;
+        return "https://" + url + "/sitemap.xml";
+    }
+    else if (testCall("http://" + url))
+    {
+        return "http://" + url;
+    }
+    else if (testCall("https://" + url))
+    {
+        return "https://" + url;
     }
     else
     {
@@ -103,9 +118,9 @@ function getXml(url) {
 };
 
 //Вызывается on.click, после, функцией setPoint при определенном значении счетчика.
-//установлен таймаут(1,5 секунды), для менее агрессивного ddosa.
+//установлен таймаут(1 секунду), для менее агрессивного ddosa.
 function loop(counter) {
-    setTimeout(ddos,1500,arr[counter], counter);
+    setTimeout(ddos,1000,arr[counter], counter);
 }
 
 //Четыре ajaxa меряют впемя отклика, и передают в массив.Счетчик пробрасывается, для вызова следующей ф-ции.
@@ -227,4 +242,25 @@ function storeResultToBd(title, data) {
             $(".console-body").append("<br>data store error on cliet side" + xhr.status).css('color', 'red');
         },
     })
+};
+
+//срабатывает вслучае, если программа не находит sitemap.xml.
+//возвращает массив url-ов
+function getSiteUrls(url) {
+    var retArr = [];
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: '/Home/GetSiteUrls',
+        data: { siteUrl: url },
+
+        success: function (data) {
+            retArr = data.split(',');
+        },
+        error: function (data) {
+            $(".console-body").append("<br>getSiteUrls bad request").css('color', 'red');
+            retArr = false;
+        }
+    })
+    return retArr;
 };

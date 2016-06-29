@@ -1,7 +1,7 @@
 ﻿<script>
     /*Global vars  */
     var DbDataArr = []; // массив точек, для сохранения в базу
-    var arr = [];// массив sitemaps
+    var arr = [];// массив адрессов
     var compareGraphs;// объект Highcharts(графики сравнения)
     var chart;// объект Highcharts(динамический график)
     var column;// объект Highcharts(столбцы)
@@ -15,9 +15,18 @@
             chart = renderGraph();
             //project-tables.js
             column = renderColumn();
-
+            //нужно 20 адрессов, т.к 20 точек на графике
+            //если больше - ставим 20
             if (arr.length > 20) {
                 arr.length = 20
+            }
+            //если меньше - тоже 20
+            if (arr.length < 20) {
+                while (arr.length < 20) {
+                    $.each(arr,function(i,val){
+                        arr.push(val);
+                    })
+                }
             }
             loop(0);
         }
