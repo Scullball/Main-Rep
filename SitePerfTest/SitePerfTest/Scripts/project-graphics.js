@@ -11,10 +11,10 @@ function renderGraph () {
                 type: 'spline',
                 animation: Highcharts.svg, // don't animate in old IE
                 marginRight: 10,
-                renderTo: 'dynamic-graph',               
+                renderTo: 'dynamic-graph',
             },
             title: {
-                text: 'Response time graph'
+                text: 'Response time graph',   
             },
             xAxis: {
                 type: 'datetime',
@@ -32,7 +32,7 @@ function renderGraph () {
             },
             tooltip: {
                 formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
+                    return '<b>' + this.point.url + '</b><br/>' +
                         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
                         Highcharts.numberFormat(this.y, 2);
                 }
@@ -54,7 +54,8 @@ function renderGraph () {
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
                             x: time + i * 1000,
-                            y: 0
+                            y: 0,
+                            url: 'testing url'
                         });
                     }
                     return data;

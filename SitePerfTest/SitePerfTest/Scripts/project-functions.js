@@ -198,29 +198,39 @@ function ddos(url, count) {
         },
     })
     ).then(function () {
-        setPoint(pointsArr, count);
+        setPoint(pointsArr,url ,count);
     });
 };
 
-//рисует точку на графиках.Выводит сообщение о возможности сохранить в базу результат теста.
-function setPoint(pointsArr, count) {
+//рисует точку на графиках, заполняет таблицу.Выводит сообщение о возможности сохранить в базу результат теста.
+function setPoint(pointsArr, url, count) {
     var min = Math.min.apply(Math, pointsArr);
     var max = Math.max.apply(Math, pointsArr);
     //оставляем 3 знака после запятой
     var point = parseFloat(((max + min) / 2).toFixed(3));
     //Значения складываем в глобальный массив DbDataArr для последующей,возможной передачи в базу.
     DbDataArr.push(point);
-    var x = (new Date()).getTime();
-    chart.series[0].addPoint([x, point], true, true);
-    column.series[1].addPoint(min);
-    column.series[0].addPoint(max);
+    //вывод значений в таблицы
+    if (count < 10) {
+        $('.compare-data-table-1').css('display', 'inline-block');
+        $('.compare-data-table-body-1 tr:last').after('<tr><td>' + count + '</td><td>' + url + '</td><td>' + min + '</td><td>' + max + '</td><td>' + point + '</td></tr>');
+    } else {
+        $('.compare-data-table-2').css('display', 'inline-block');
+        $('.compare-data-table-body-2 tr:last').after('<tr><td>' + count + '</td><td>' + url + '</td><td>' + min + '</td><td>' + max + '</td><td>' + point + '</td></tr>');
+    }
+    var time = (new Date()).getTime();
+    // рисуем точку на графике
+    chart.series[0].addPoint({x:time, y:point, url:url}, true, true);
+    //определяем min,max для колонок.
+    column.series[1].addPoint({y:min,url:url});
+    column.series[0].addPoint({y:max,url:url});
     if (count < 19) {
         count++;
         loop(count);
     }
     else {
         $(".console-body").append("<br>test finished sucsessfuly.Save test?").css('color','black');
-        $('.annotation').css({ "opacity": "1", "transform": "scale(1)" });
+        $('.annotation').css({"opacity": "1", "transform": "scale(1)" });
         $('.test-title-form').css('display', 'inline');
         $('.save').css('display', 'inline');
     }

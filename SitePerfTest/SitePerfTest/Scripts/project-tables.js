@@ -31,14 +31,15 @@
                 depth: 40
             }
         },
+        tooltip: {
+            pointFormat: '{point.url}</br> <b>{series.name}: {point.y}</b>'
+        },
         series: [{
             name: 'max',
-            data: [],
-
-        }, {
+            data: []
+        },{
             name: 'min',
             data: []
-
         }]
     });
 

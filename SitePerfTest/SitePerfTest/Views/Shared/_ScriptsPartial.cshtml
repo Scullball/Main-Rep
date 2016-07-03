@@ -6,6 +6,14 @@
     var chart;// объект Highcharts(динамический график)
     var column;// объект Highcharts(столбцы)
     $('.runTest').click(function () {
+        //очищаем таблицу
+        $('.compare-data-table-body-1').empty();
+        $('.compare-data-table-body-1').append('<tr>');
+        $('.compare-data-table-body-2').empty();
+        $('.compare-data-table-body-2').append('<tr>');
+        $('.compare-data-table-1').css('display', 'none');
+        $('.compare-data-table-2').css('display', 'none');
+        //достаем введенный урл
         var url = $('.testForm');
         if (url.val().length > 0)
         {

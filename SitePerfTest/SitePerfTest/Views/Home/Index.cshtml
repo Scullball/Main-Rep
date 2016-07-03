@@ -8,12 +8,12 @@
     <input class="form-control testForm" placeholder="somesite.com" />
     <button class="btn btn-success runTest">Run test</button>
     <input class="form-control test-title-form" placeholder="please,insert test name/title" />
-    <button class="btn btn-danger save">save</button>   
+    <button class="btn btn-danger save">save</button>
     <div class="annotation">
         <span>Save result?</span>
         <div class="annotation-arrow"></div>
     </div>
-    
+
 </div>
 
 
@@ -34,23 +34,57 @@
                         <td></td>
                     </tr>
                 </thead>
-            @foreach(var data in ViewBag.data)
-            {
-                <tbody>
-                    <tr>
-                        <td>@data.Id</td>
-                        <td class="table-title">@data.Title</td>
-                        <td>@data.Date</td>
-                        <td><button class="btn btn-info display-graphycaly" data="@data.Data">Display graphycaly</button></td>
-                    </tr>
-                </tbody>
-            }
+                @foreach (var data in ViewBag.data)
+                {
+                    <tbody>
+                        <tr>
+                            <td>@data.Id</td>
+                            <td class="table-title">@data.Title</td>
+                            <td>@data.Date</td>
+                            <td><button class="btn btn-info display-graphycaly" data="@data.Data">Display graphycaly</button></td>
+                        </tr>
+                    </tbody>
+                }
             </table>
         </div>
     </div>
 </div>
-<div class="site"></div>
 <div id="compare-graphs"></div>
 <div id="dynamic-graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <div id="dynamic-column"></div>
+<div class="compare-data-table">
+    <div class="compare-data-table-1">
+        <table>
+            <thead>
+                <tr>
+                    <td>№</td>
+                    <td class="compare-data-table-url">Url</td>
+                    <td>Min</td>
+                    <td>Max</td>
+                    <td>Average</td>
+                </tr>
+            </thead>
+            <tbody class="compare-data-table-body-1">
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="compare-data-table-2">
+        <table>
+            <thead>
+                <tr>
+                    <td>№</td>
+                    <td class="compare-data-table-url">Url</td>
+                    <td>Min</td>
+                    <td>Max</td>
+                    <td>Average</td>
+                </tr>
+            </thead>
+            <tbody class="compare-data-table-body-2">
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
