@@ -1,0 +1,118 @@
+﻿@model BookStore.Models.Book
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<body>
+    <div class="AddBookForm">
+        <div class="AddBookForm-title">
+            <h1>Форма добавления новой книги</h1>
+        </div>
+        <div class="AddBookForm-body">
+            <form role="form" method="post" action="/Admin/AddBook/">
+                <div class="form-block-left">
+                    <div class="form-group">
+                        <label>Название книги</label>
+                        <input class="form-control" name="Title">
+                    </div>
+                    <div class="form-group">
+                        <label>Издательство</label>
+                        <input class="form-control" name="Publishing">
+                    </div>
+                    <div class="form-group">
+                        <label>Цена книги(грн.)</label>
+                        <input class="form-control" name="Price">
+                    </div>
+                    <div class="form-group">
+                        <label>Кол-во страниц</label>
+                        <input class="form-control" name="Pages">
+                    </div>
+                    <div class="form-group">
+                        <label>Миниатюра(в формате jpeg)</label>
+                        <input class="form-control" name="Image">
+                    </div>
+                    <div class="form-group AddButton">
+                        <button type="submit" class="btn btn-primary btn-block">Добавить книгу</button>
+                    </div>
+                </div>
+                <div class="form-block-authors">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Список авторов</div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                @foreach (var author in ViewBag.authors)
+                                {
+                                    <li class="list-group-item">
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="Author" value="@author.Id"/>
+                                            <label>
+                                                @author.AuthorName
+                                            </label>
+                                        </div>
+                                        <div class="action-buttons">                                         
+                                            <a href="#" class="editAuthor" data-toggle="tooltip" title="рдактировать автора" id="@author.Id" name="@author.AuthorName" desc="@author.AuthorDescription" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                            <a href="/Admin/DeleteAuthor/@author.Id" data-toggle="tooltip" title="удалить автора"><span class="glyphicon glyphicon-trash"></span></a>
+                                            <a href="#"data-toggle="tooltip" title="добавить автора" class="addAuthor"><span class="glyphicon glyphicon-user" data-toggle="modal" data-target="#AddAuthorModal"></span></a>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-block-genres">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Список жанров</div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                @foreach (var genre in ViewBag.genres)
+                                {
+                                    <li class="list-group-item">
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="Genre"value="@genre.Id"/>
+                                            <label>
+                                                @genre.GenreName
+                                            </label>
+                                        </div>
+                                        <div class="action-buttons">
+                                            <a href="#" class="editGenre" data-toggle="tooltip" title="рдактировать жанр" id="@genre.Id" name="@genre.GenreName" desc="@genre.GenreDescription"><span class="glyphicon glyphicon-pencil"></span></a>
+                                            <a href="/Admin/DeleteGenre/@genre.Id" data-toggle="tooltip" title="удалить жанр"><span class="glyphicon glyphicon-trash"></span></a>
+                                            <a href="" data-toggle="tooltip" title="добавить жанр"><span class="glyphicon glyphicon-book" data-toggle="modal" data-target="#AddGenreModal"></span></a>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-block-description">
+                    <div class="form-group">
+                        <label for="Description">Краткое описание</label>
+                        <div class="AddBookTextarea">
+                            <textarea class="form-control" rows="1" name="Description"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-block-messages">
+                    <div class="form-group">
+                        <label>MessageBox</label>
+                        <div class="message">
+                            @if (ViewBag.showErrorMessage != 1)
+                            {
+                                <div class="default-message">
+                                    <h4><b>Добавляемая книга может принадлежать нескольким жанрам и авторам.</b></h4>
+                                </div>
+                            }                                                                                   
+                            @Html.ValidationSummary(false)
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    @Html.Partial("_ModalsForAddBookPartial")
+</body>
+</html>

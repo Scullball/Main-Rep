@@ -1,0 +1,101 @@
+﻿@model BookStore.Models.Book
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="carousel-frame">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="~/Content/jpg for carousell pic 1.jpg" style="width:1020px;height:450px">
+            </div>
+
+            <div class="item">
+                <img src="~/Content/jpg for carousell pic 2.jpg" style="width:1020px;height:450px">
+            </div>
+
+            <div class="item">
+                <img src="~/Content/jpg for carousell pic 3.jpg" style="width:1020px;height:450px">
+            </div>
+
+            <div class="item">
+                <img src="~/Content/jpg for carousell pic 4.jpg" style="width:1020px;height:450px">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var Book in ViewBag.Books)
+    {
+        <div class="book">
+            <div class="book-id">@Book.Id</div>
+            <div class="book-body">
+                <a href="/Home/About/@Book.Id"><img id="imgSrc" src="~/Content/@String.Concat(Book.Image, ".jpg")" class="img-responsive" style="width:210px;height:350px"></a>
+            </div>
+            <div class="book-title">
+                @Book.Title
+            </div>
+            <div class="book-price">
+                <b>@Book.Price грн</b>
+            </div> 
+            <div class="info">                
+                @if (Request.IsAuthenticated && User.IsInRole("admin"))
+                {
+                    <a href="/Admin/DeleteBook/@Book.Id" class="btn btn-danger btn-block" role="button">Удалить книгу</a>
+                }
+                else
+                {
+                    <div class="in-cart-button">
+                        <button class="btn btn-primary btn-block">В корзину</button>
+                    </div>
+                }
+                <div class="book-info">
+                    <br />
+                    <strong>Автор:</strong>
+                    @foreach (var a in Book.Authors)
+                    {
+                        @a.AuthorName
+                    }
+                    <br />
+                    <strong>Жанр:</strong>
+                    @Book.GenresCommaOutput
+                    <br />
+                    <strong>Издание:</strong>
+                    @Book.Publishing
+                    <br />
+                    <strong>Кол-во страниц:</strong>
+                    @Book.Pages
+                </div>                
+            </div>         
+        </div>
+    }
+</div>
+
+<div class="back-torn"></div>
+<div class="in-cart-pop">
+    <div class="in-cart-pop-header">
+        <button type="button" title="закрыть">X</button>
+    </div>
+    <div class="container">
+        <div class="in-cart-pop-body">
+            <div class="in-cart-pop-image"><img src="" style="width:70px;height:100px;" /></div>
+            <div class="in-cart-pop-content">
+                <div class="in-cart-pop-book-title"></div>
+                <div class="in-cart-pop-text-message"><br><b>Книга добавлена в корзину</b></div>
+                <div class="in-cart-pop-total-money-counter"><b>Всего товаров на <span></span> грн.</b></div>
+                <div class="in-cart-pop-button-container">
+                    <a href="/Home/Cart" class="in-cart-pop-button btn btn-info">Перейти в корзину</a>
+                </div>                              
+            </div>
+        </div>
+    </div>
+</div>

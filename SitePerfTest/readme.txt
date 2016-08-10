@@ -16,6 +16,6 @@ Simple code. Main application logic written on javaScript. Server side(c#) used
 	Charts used: highcharts http://www.highcharts.com/demo/3d-column-stacking-grouping
 
 
-									Best Regards
+									
 	
 	

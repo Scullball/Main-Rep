@@ -1,0 +1,78 @@
+﻿@using BookStore.Models
+@using Microsoft.AspNet.Identity
+<div class="cart-header">
+    <div class="cart-header-title">Корзина</div>
+    <div class="cart-header-counter">Всего на: <span>@Session["totalPrice"]</span> грн</div>
+</div>
+
+@if (ViewBag.Books == null)
+{
+    <img class="emptyCart" src="~/Content/empty_cart.jpg">
+}
+else
+{
+    <table class="cart-form">
+        <thead>
+            <tr>
+                <td>Товары в корзине:</td>
+                <td></td>
+                <td>Цена</td>
+                <td>Количество</td>
+                <td>Всего</td>
+                <td></td>
+            </tr>
+        </thead>
+@foreach (KeyValuePair<Book, int> item in ViewBag.Books)
+{
+        <tbody>
+            <tr>
+                <td class="cart-form-book-img">
+                    <div class="container">
+                        <a href="#"><img src="~/Content/@String.Concat(item.Key.Image, ".jpg")" class="img-responsive" style="width:100px;height:150px"></a>
+                    </div>
+                </td>
+                <td class="cart-form-book-id">@item.Key.Id</td>                    
+                <td class="cart-form-book-title">
+                    <div class="container"><b>@item.Key.Title</b></div>                   
+                </td>
+                <td class="cart-form-book-price">
+                    <div class="container">@item.Key.Price грн</div>
+                </td>
+                <td class="cart-form-book-quantity">
+                    <div class="container"><input value="@item.Value"></div>
+                </td>
+                <td class="cart-form-book-subtotal">
+                    <div class="container"></div>
+                </td>
+                <td class="cart-form-book-controll">
+                    <div class="container"><a href="/Home/DeleteFromCart/@item.Key.Id?Price=@item.Key.Price">Удалить из корзины</a></div>
+                </td>
+            </tr>
+        </tbody>
+}
+    </table>
+    <div class="cart-order">
+@if (Request.IsAuthenticated)
+{
+        <a href="/Home/Buy" class="btn btn-primary" role="button">Оформить заказ</a>
+}
+else
+{
+        <a href="#" class="btn btn-primary disabled" role="button" >Оформить заказ</a>
+}
+    </div>
+
+    <div class="cart-register-info">
+        <br/>
+        <p>
+            Оформить заказ возможно только авторизованным поьзователям.<br/>
+            Если у вас нет аккаунта, пожалуйста зарегистрируйтесь.
+        </p>
+
+        <p>После регистрации вы получите информационное письмо.</p>
+
+        Личные сведения, полученные в распоряжение интернет-магазина при регистрации или каким-либо иным образом, 
+        не будут без разрешения пользователей передаваться третьим организациям и лицам за исключением ситуаций, 
+        когда этого требует закон или судебное решение. 
+    </div>
+}
