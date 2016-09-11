@@ -1,0 +1,142 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*Styles for console*/
+
+.console{
+    width:350px;
+    height:150px;
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,0.19),0 8px 17px 0 rgba(0,0,0,0.2);
+    margin-top:10px;
+    margin-bottom:10px;
+    position:relative;
+    display:inline-block;
+    overflow:auto;
+}
+.AddTask{
+    display: inline-block;
+    width:150px;
+    position:relative;
+    left:20%;
+    vertical-align:top;
+    margin-top:5%;
+}
+.AddTask-button{
+    height:50px;
+    width:200px;
+}
+.console-header{
+    text-align:center;
+    border-bottom: 2px solid black;
+}
+.console-body{
+    padding: 5px;
+}
+/*Styles for stored data*/
+.stored-data{
+    width:100%;
+    height:400px;
+    box-shadow: 0 6px 20px 0 rgba(0,0,0,0.19),0 8px 17px 0 rgba(0,0,0,0.2);
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:20px;
+    position:relative;
+    overflow:auto;
+}
+
+.table-data-head{
+    text-align:center;
+}
+
+.table-store{   
+    padding-right:10px;
+    padding-left:10px;
+}
+
+.stored-data thead{
+    border-bottom: 1px solid black;
+}
+.stored-data-header{
+    text-align:center;
+    border-bottom: 2px solid black;
+}
+
+/*Styles for checkboxes in modal*/
+
+.users-checkboxes{
+    height:170px;
+    overflow:auto;
+}
+
+
+/*Styles for slider*/
+
+/*Фон слайдера*/
+.slider {
+width:230px;
+height:11px;
+background:url(slider-bg.png);
+position:relative;
+margin:0;
+padding:0 10px;
+}
+
+/*Стиль кнопки слайдера*/
+.ui-slider-handle {
+width:24px;
+height:24px;
+position:absolute;
+top:-7px;
+margin-left:-12px;
+z-index:200;
+background:url(slider-button.png);
+}
+
+/*Элемент div результата, в котором выводится значение слайдера*/
+#slider-result {
+font-size:50px;
+height:200px;
+font-family:Arial, Helvetica, sans-serif;
+color:#fff;
+width:250px;
+text-align:center;
+text-shadow:0 1px 1px #000;
+font-weight:700;
+padding:20px 0;
+}
+
+/*Полоска заполнителя слайдера*/
+.ui-widget-header {
+background:url(fill.png) no-repeat left;
+height:8px;
+left:1px;
+top:1px;
+position:absolute;
+}
+
+a {
+outline:none;
+-moz-outline-style:none;
+}

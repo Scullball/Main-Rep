@@ -1,0 +1,79 @@
+﻿
+<script>
+    //////////Console message\\\\\\\\\\\\\
+    $(document).ready(function () {
+        if ('@TempData["ConsoleMessage"]')
+        $('.console-body').append('@TempData["ConsoleMessage"]');
+    });
+</script>
+<script>
+    //////////modals\\\\\\\\\\\\\\\\\\\\
+    $(document).ready(function () {
+        if (@TempData["RegisterError"] == 1)
+            showModalIfError('register');
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        if(@TempData["AddTaskError"] == 1)
+            showModalIfError('addTaskError');
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        if(@TempData["EditTaskError"] == 1)
+            showModalIfError('editTaskError');
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        if(@TempData["ShareTaskError"] == 1)
+            showModalIfError('shareTaskError');
+    });
+
+</script>
+
+<script>
+    $('#AddTask').click(function(){
+        showModal('add');
+    });
+
+    $('.editTask').click(function(){
+        showModal('edit', $(this));
+    });
+
+    $('.shareTask').click(function(){
+        showModal('share',$(this));
+    });
+
+</script>
+
+
+<script>
+    ////////Slider\\\\\\\\\\\\
+    $( function() {
+        $( "#slider-range-max" ).slider({
+            range: "max",
+            min: 1,
+            max: 20,
+            value: 2,
+            slide: function( event, ui ) {
+                $( "#amount" ).val( ui.value );
+            }
+        });
+        $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+    } );
+</script>
+<script>
+    $('.start-btn').click(function(){
+        sliderObj.slide('start');
+        $('.console-body').append('Test start:');
+    });
+
+    $('.stop-btn').click(function(){
+        sliderObj.slide('stop');
+        $('.console-body').append('Test finished');
+    });
+</script>
