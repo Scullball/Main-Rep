@@ -1,7 +1,7 @@
 Simple code. Main application logic written on javaScript. Server side(c#) used
 	only for storing to database and render page.
 	Perfectly working on “firefox” and chrome,
-	rendering beautifully 3d graphs in real-time, as needed.
+	rendering beautifully 3d graphs in real-time.
 	
 
 
